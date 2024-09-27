@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Project 2</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>Fun with Filters and Frequencies</h1>
+
+        <h2>Part 1.1</h2>
+        <p> I convolved the cameraman image with the finite difference operators to get the partial x and y derivatives of the image.</p>
+        <div class="row">
+
+            <div class="column">
+                <img src="proj2pics/xderivative.jpg" alt="xderivative">
+                <p class="caption">Dx Image</p>
+            </div>
+
+            <div class="column">
+                <img src="proj2pics/yderivative.jpg" alt="yderivative">
+                <p class="caption">Dy Image</p>
+            </div>
+
+        </div>
+
+        <p>I then computed the gradient magnitude image, by taking the square root of the summed squares of the two partial derivaties. I found a threshold of 0.19 to be best when binarizing the gradient magnitude, striking a good balance of showing the outline of the man while reducing noise.</p>
+
+        <div class="row">
+            <div class="column">
+                <img src="proj2pics/gradient_magnitude.jpg" alt="gradient_magnitude">
+                <p class="caption">Gradient Magnitude Image</p>
+            </div>
+            <div class="column">
+                <img src="proj2pics/binarized.jpg" alt="binarized">
+                <p class="caption">Binarized Graident Magnitude</p>
+            </div>
+        </div>
+
+    <h2>Part 1.2</h2>
+
+    <p>I blurred the cameraman image by convolving it with a 2D Gaussian kernel.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/cameraman.png" alt="cameraman">
+            <p class="caption">Orignal</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/blurred-cameraman.jpg" alt="blurred-cameraman">
+            <p class="caption">Blurred</p>
+        </div>
+    </div>
+
+    <p>The image on the right is more blurred than the original. It is not extremely blurry because I used a small kernel with a small  sigma value (&#60;10).</p>
+
+    <p>Below are the results of the derivatives and gradient magnitude images with the new, smoothed cameraman image.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/smoothed_xderivative.jpg" alt="smoothed_xderivative">
+            <p class="caption">Smoothed Dx</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/smoothed_yderivative.jpg" alt="smoothed_yderivative">
+            <p class="caption">Smoothed Dy</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/smoothed_gradient_magnitude.jpg" alt="smoothed_gradient_magnitude">
+            <p class="caption">Smoothed Gradient Magnitude</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/smoothed_binarized.jpg" alt="smoothed_binarized">
+            <p class="caption">Smoothed Binarized Graident Magnitude</p>
+        </div>
+    </div>
+
+    <h2>Part 2.1: Image "Sharpening"</h2>
+
+    <p>In order to sharpen the Taj Mahal image, I isolated the higher frequencies by subtracting the original image and a blurred, low-frequency version of the image (created by convolving with a Gaussian kernel). I added different amounts of the high frequencies back to the original image to produce different levels of "sharpness"</p>
+
+    <img src="proj2pics/taj.jpg" alt="taj">
+    <p class="caption"> Original</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/taj_1.jpg" alt="taj1">
+            <p class="caption">α = 1</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/taj_2.jpg" alt="taj2">
+            <p class="caption">α = 2</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/taj_5.jpg" alt="taj5">
+            <p class="caption">α = 5</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/taj_10.jpg" alt="taj10">
+            <p class="caption">α = 10</p>
+        </div>
+    </div>
+
+    <p>Although not gaining any data, the images appear sharper because of the added high frequencies.</p>
+
+    <h3>More Examples</h3>
+
+    <img src="proj2pics/bird.jpg" alt="bird">
+    <p class="caption"> Original</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/bird__1.jpg" alt="bird1">
+            <p class="caption">α = 1</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/bird__2.jpg" alt="bird2">
+            <p class="caption">α = 2</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/bird_5.jpg" alt="bird5">
+            <p class="caption">α = 5</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/bird_10.jpg" alt="bird10">
+            <p class="caption">α = 10</p>
+        </div>
+    </div>
+
+    <h3>Resharpening a Blurred Image</h3>
+
+    <p>The image was blurred in the same way described previously, by convolving with a Gaussian kernel. When we added higher frequencies back to the image, it provides some "resharpening", which you can see in the petals of the succulent.
+    </p>
+    <img src="proj2pics/succulent.jpg" alt="succulent">
+    <p class="caption"> Original</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/blurred_succulent.jpg" alt="blurred_succulent">
+            <p class="caption">Blurred</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/resharpened_succulent.jpg" alt="resharpened_succulent">
+            <p class="caption">Resharpened (α = 3)</p>
+        </div>
+    </div>
+
+    <h2>Part 2.2: Hybrid Images</h2>
+
+    <p>These hybrid images were created by adding the low frequencies of one image to the high frequencies of another. From close by, one should be able to perceive the image as the high-frequency object, and from far away, it should appear as the low frequency object.</p>
+
+    <p>Instructor-provided code was also used to align the images based on 2 points before combining them.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/DerekPicture.jpg" alt="derek">
+            <p class="caption">Low Frequency Image</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/nutmeg.jpg" alt="cat">
+            <p class="caption"> High Frequency Image</p>
+        </div>
+    </div>
+
+    <img src="proj2pics/catderek.jpg" alt="catderek">
+    <p class="caption">Hybrid</p>
+
+    <h3>Frequency Analysis</h3>
+    <p>Below are the log magnitudes of the Fourier transforms of the two input images, the filtered images, and finally the new hybrid image.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/fft_derek.jpg" alt="fftderek">
+            <p class="caption">Derek</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/fft_cat.jpg" alt="fftcat">
+            <p class="caption">Nutmeg</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/fft_lowderek.jpg" alt="fftlowderek">
+            <p class="caption">Derek (Low Frequency)</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/fft_highcat.jpg" alt="ffthighcat">
+            <p class="caption">Nutmeg (High Frequency)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/fft_hybrid.jpg" alt="ffthybrid">
+            <p class="caption">Hybrid</p>
+        </div>
+    
+    </div>
+
+    <h3>More Examples</h3>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/obama.webp" alt="obama">
+            <p class="caption">Low Frequency Image</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/kamala.jpg" alt="kamala">
+            <p class="caption"> High Frequency Image</p>
+        </div>
+    </div>
+
+    <img src="proj2pics/obamakamala.jpg" alt="flowerpizza">
+    <p class="caption">Hybrid</p>
+
+    <h3>Failure</h3>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/flower.webp" alt="flower">
+            <p class="caption">Low Frequency Image</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/pizza.webp" alt="pizza">
+            <p class="caption"> High Frequency Image</p>
+        </div>
+    </div>
+
+    <img src="proj2pics/flowerpizza.jpg" alt="flowerpizza">
+    <p class="caption">Hybrid</p>
+
+    <p>This combination of images failed, I think because the pizza was too detailed of an image with widely contrasting colors. Although you can see the flower structure from far away, the detail in the pizza's cheese still sticks out, and so the "illusion" doesn't hold as well.</p>
+
+    <h2>Part 2.3: Gaussian/Laplacian Stacks</h2>
+
+    <h3>Apple</h3>
+    <img src="proj2pics/applestack.png" alt="applestacks">
+    <h3>Orange</h3>
+    <img src="proj2pics/orangestack.png" alt="orangestacks">
+
+    <!-- <h3>Recreation of Figure 3.42</h3> -->
+
+    <h2>Part 2.4: Multiresolution Blending</h2>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/apple.jpeg" alt="apple">
+            <p class="caption">Apple</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/orange.jpeg" alt="orange">
+            <p class="caption">Orange</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/vertical_mask.jpg" alt="vertical_mask">
+            <p class="caption">Mask</p>
+        </div>
+    </div>
+
+    <img src="proj2pics/oraple.jpg" alt="oraple">
+
+    <div class="pad">&nbsp;</div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/young.png" alt="young">
+            <p class="caption">Young</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/old.png" alt="old">
+            <p class="caption">Old</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/vertical_mask.jpg" alt="vertical_mask">
+            <p class="caption">Mask</p>
+        </div>
+    </div>
+
+
+    <img src="proj2pics/youngold.png" alt="youngold">
+
+    <div class="pad">&nbsp;</div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj2pics/washington.png" alt="washington">
+            <p class="caption">Washington</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/eyes.png" alt="eyes">
+            <p class="caption">Googly Eyes</p>
+        </div>
+        <div class="column">
+            <img src="proj2pics/eyesmask.png" alt="eyesmask">
+            <p class="caption">Mask</p>
+        </div>
+    </div>
+
+    <img src="proj2pics/googlywash.png" alt="googlywash">
+
+    <div class="pad">&nbsp;</div>
+
+    <h3>Laplacian Stacks</h3>
+
+    <img src="proj2pics/wash_laplacian2.png" alt="wash_laplacian2">
+    <img src="proj2pics/wash_laplacian4.png" alt="wash_laplacian4">
+    <img src="proj2pics/wash_laplacian8.png" alt="wash_laplacian8">
+
+
+
+    <style>
+        body {
+            background-color: white;
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        p {
+            color: black
+        }
+        h2 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+        h3 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+
+        .header {
+            width: 90%;
+            font-family: Georgia;
+            color: #204d63;
+        }
+        .caption {
+            font-size: 14px;
+        }
+        .row {
+            display: flex;
+            padding-bottom: 20px;
+        }
+        .column {
+            flex: 33%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        .pad {
+            padding-bottom: 20px;
+        }
+        img {
+            height: 300px;
+        }
+    </style>
+</body>
+</html>

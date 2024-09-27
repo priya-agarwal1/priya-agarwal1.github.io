@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Project 1</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>Colorizing the Prokudin-Gorskii Photo Collection</h1>
+    </div>
+       <h2>Introduction</h2>
+       <p>The goal of this project was to turn extracted RGB channel images into one colored image by aligning the three channels as closely as possible.</p>
+
+        <h2>Scoring Metrics</h2>
+        <p>I played around with a number of different metrics to determine how well images were matched up, including L1 and L2 loss. Ultimately, I found that using the Canny edge detector in scikit-image worked best. I used a sigma value of 2 to reduce the number of curves, and applied this to both image matrices. I then checked how many elements matched between the resulting matrices, and used this sum score as my metric. </p>
+       <h2>Smaller Images</h2>
+       <p>For smaller images, I iteratively displaced the red and green channels by shifting them horizontally and vertically by a maximum of 20 pixels in any direction. All three channels were cropped by 20 pixels in all directions to ensure that any pixels that were rolled over to the opposite edge during displacement aren't accounted for.</p>
+       <p>Each iterative displacement was placed on top of the blue layer (which never moved) and the image matching metric was calculated as described above. I chose the displacement vectors for the red and green layers that maximize this metric, resulting in the images below.</p>
+
+       <h3>Results</h3>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="proj1pics/cathedral_output.jpg" title="cathedral.jpg"/>
+            <div class="caption">Red displacement: (3, 12) <br/>
+                Green displacement: (2, 5)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/monastery_output.jpg" title="monastery.jpg"/>
+            <div class="caption">Red displacement: (2, 3) <br/>
+                Green displacement: (2, -3)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/tobolsk_output.jpg" title="tobolsk.jpg"/>
+            <div class="caption">Red displacement: (3, 6) <br/>
+                Green displacement: (2, 3)
+            </div>
+        </div>
+    </div>
+
+    <h2>Larger Images (.tif files)</h2>
+    <p>For larger images, this type of search becomes too exhaustive. To combat this, I recursively scaled down the image until it was no larger than 200x200 pixels. For this smaller, scaled down image, the same crop and iterative search was run to find the optimal x and y shift values. I then multiplied these shift values by 2 for each time the image was scaled down, to account for the number of pixels doubling. In between recursive runs, I did the displacement search with a window of (40,40) pixels to account for more granular differences.</p>
+    <p>Below are the aligned larger resolution images along with the red and green displacement vectors. </p>
+    <h3>Results</h3>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="proj1pics/church.jpg" title="church.jpg"/>
+            <div class="caption">Red displacement: (-4, 58) <br/>
+                Green displacement: (4, 25)
+            </div>
+        </div>
+        <div class="column">
+            <img src="proj1pics/emir.jpg" title="emir.jpg"/>
+            <div class="caption">Red displacement: (40, 103) <br/>
+                Green displacement: (19, 48)
+            </div>
+        </div>
+        <div class="column">
+            <img src="proj1pics/harvesters.jpg" title="harvesters.jpg"/>
+            <div class="caption">Red displacement: (10, 121) <br/>
+                Green displacement: (13, 59)
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="proj1pics/icon.jpg" title="icon.jpg"/>
+            <div class="caption">Red displacement: (22, 90) <br/>
+                Green displacement: (16, 36)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/lady.jpg" title="lady.jpg"/>
+            <div class="caption">Red displacement: (13, 120) <br/>
+                Green displacement: (9, 57)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/melons.jpg" title="melons.jpg"/>
+            <div class="caption">Red displacement: (11, 182) <br/>
+                Green displacement: (9, 89)
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="proj1pics/onion_church.jpg" title="onion_church.jpg"/>
+            <div class="caption">Red displacement: (34, 107) <br/>
+                Green displacement: (24, 52)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/sculpture.jpg" title="sculpture.jpg"/>
+            <div class="caption">Red displacement: (-27, 140) <br/>
+                Green displacement: (-11, 33)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/self_portrait.jpg" title="self_portrait.jpg"/>
+            <div class="caption">Red displacement: (32, 178) <br/>
+                Green displacement: (25, 81)
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="proj1pics/three_generations.jpg" title="three_generations.jpg"/>
+            <div class="caption">Red displacement: (8, 106) <br/>
+                Green displacement: (13, 57)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/train.jpg" title="train.jpg"/>
+            <div class="caption">Red displacement: (28, 84) <br/>
+                Green displacement: (2, 54)
+            </div>
+        </div>
+
+    </div>
+
+    <h3>Additional Images</h3>
+    <div class="row">
+
+        <div class="column">
+            <img src="proj1pics/sitting.jpg" title="sitting.jpg"/>
+            <div class="caption">Red displacement: (48, 129) <br/>
+                Green displacement: (31, 61)
+            </div>
+        </div>
+
+        <div class="column">
+            <img src="proj1pics/mosque.jpg" title="mosque.jpg"/>
+            <div class="caption">Red displacement: (60, 125) <br/>
+                Green displacement: (30, 54)
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+    <style>
+        body {
+            background-color: white;
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+        h3 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+
+        .header {
+            width: 90%;
+            font-family: Georgia;
+            color: #204d63;
+        }
+        .caption {
+            font-size: 14px;
+        }
+        .row {
+            display: flex;
+            padding-bottom: 20px;
+        }
+        .column {
+            flex: 33%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        img {
+            height: 300px;
+        }
+    </style>
+</body>
+</html>
