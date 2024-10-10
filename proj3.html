@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Project 2</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>Face Morphing</h1>
+
+        <h2>Part 1</h2>
+        <p> I first cropped and resized both my images to ensure they were the same size and aspect ratio. After this, using the online tool provided, I labeled 75 points on each of the two faces (including 4 corners), marking the same features/locations in the same order for both. I computed Delaunay triangulations for both images using these sets of points, along with an average Delaunary triangulation based on the average set of points.</p>
+        <div class="row">
+
+            <div class="column">
+                <img src="proj3pics/me_triangle.png" alt="me_triangle">
+                <p class="caption">Me</p>
+            </div>
+
+            <div class="column">
+                <img src="proj3pics/z_triangle.png" alt="z_triangle">
+                <p class="caption">Zendaya</p>
+            </div>
+
+        </div>
+
+        <div class="column">
+            <img src="proj3pics/triangulation.png" alt="z_triangle">
+            <p class="caption">Average Triangulation</p>
+        </div>
+
+
+    <h2>Part 2: Midway Image</h2>
+
+    <p>In order to create the midway image, I computed an affine tranformation that would transform each of the triangles in my original image to the corresponding triangle in the average shape. This tranformation was applied inversely to each pixel of each triangle in the average shape, which resulted in the original images being morphed into the average shape. </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj3pics/me_warped.jpg" alt="me_warped">
+        </div>
+        <div class="column">
+            <img src="proj3pics/celeb_warped.jpg" alt="celeb_warped">
+        </div>
+        
+    </div>
+
+    <p>Once I had both warped images, I simply cross-disolved them to get the midpoint image.</p>
+
+
+    <div class="column">
+        <img src="proj3pics/midway.jpg" alt="midway">
+        <p class="caption">Midway Image</p>
+    </div>
+
+
+
+
+    <h2>Part 3: Morph Sequence</h2>
+
+    <p>This was very similar to the work done in part 2. However, instead of taking the average points and cross-dissolving evenly, the points were weighted using an alpha value that was between 0 and 1. The warp_frac determined how the weight of img2 in point calculations (img1 would then get a weight of 1-alpha), and dissolve_frac determined this weight for the cross-dissolving.</p>
+
+    <p>I did this over 60 different frames, transitioning from the image of me to the image of Zendaya.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj3pics/morph.gif" alt="morph">
+            <p class="caption">Morphing Gif</p>
+        </div>
+    </div>
+
+
+    <h2>Part 4: "Mean Face" of a Population</h2>
+
+    <p>I used the first 100 images of the FEI database for my population. I focused only on images with neutral expressions. In the same way I calculated the midway face between 2 images in Part 2, I calculated the average shape of these 100 faces, warped the 100 images, and cross-disolved all of them to produce the mean face. Note that the image is blurrier because we are averaging more faces, so features will not be exactly distinct.</p>
+
+    
+            <img src="proj3pics/avg_fei.jpg" alt="avg_fei">
+            <p class="caption">Mean Face of FEI Population</p>
+
+    <p> Here are some of the original picures morphed into the mean.</p>
+    
+    <div class="row">
+        <div class="column">
+            <img src="proj3pics/example1.jpg" alt="me_warped">
+        </div>
+        <div class="column">
+            <img src="proj3pics/example2.jpg" alt="celeb_warped">
+        </div>
+        
+    </div>
+
+
+    <p>I also morphed my face into this mean geometry, and morphed the average geometry into my face.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj3pics/mewarpmean.jpg" alt="me_warped">
+        </div>
+        <div class="column">
+            <img src="proj3pics/meanwarpme.jpg" alt="celeb_warped">
+        </div>
+        
+    </div>
+
+
+   <h2>Part 5: Caricature</h2>
+
+   <p>To create a caricature, I subtracted the mean from part 4 from myself, and added more of myself to create an exaggerated face shape. I then warped my face into this new face shape. You can see that features like my eyes and forehead (features that were smaller in the mean) are now more exaggerated.</p>
+
+   <img src="proj3pics/caricature.jpg" alt="apple">
+   <p class="caption">alpha=1.5</p>
+
+   <h2>Bells and Whistles</h2>
+
+    <p>I decided to change my race by morphing my picture with an image I found of the "average white American woman" that I found online. I cropped/resized both images. In one version, I morphhed just the shape by using the average woman's color with my face shape (no cross-dissolving). I morphed just the appearance by not cross-dissolving with the average woman's color but using her shape. Lastly, I did the average shape and cross-disolved, resulting in a mid-way point between me and the average white American woman. </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj3pics/me_bells.jpeg" alt="me_warped">
+            <p class="caption">Me</p>
+        </div>
+        <div class="column">
+            <img src="proj3pics/avgwoman.jpg" alt="celeb_warped">
+            <p class="caption">White American Woman</p>
+        </div>
+        </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj3pics/color_morph.jpg" alt="me_warped">
+            <p class="caption">Color Morph</p>
+        </div>
+        <div class="column">
+            <img src="proj3pics/shape_morph.jpg" alt="celeb_warped">
+            <p class="caption">Shape Morph</p>
+        </div>
+        
+    </div>
+    <div class="column">
+        <img src="proj3pics/both_morph.jpg" alt="celeb_warped">
+        <p class="caption">Total Morph</p>
+    </div>
+
+    
+
+    <style>
+        body {
+            background-color: white;
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        p {
+            color: black
+        }
+        h2 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+        h3 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+
+        .header {
+            width: 90%;
+            font-family: Georgia;
+            color: #204d63;
+        }
+        .caption {
+            font-size: 14px;
+        }
+        .row {
+            display: flex;
+            padding-bottom: 20px;
+        }
+        .column {
+            flex: 33%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        .pad {
+            padding-bottom: 20px;
+        }
+        img {
+            height: 300px;
+        }
+    </style>
+</body>
+</html>
