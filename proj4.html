@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Project 4</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>Image Warping and Mosaicing</h1>
+
+        <h2>Recovering Homographies</h2>
+        <p>The first goal of this project was to write function computeH(im1_pts, im2_pts), which will get us the homography matrix H that tranforms the points in img1 to the points in img2. I used the approach described below.</p>
+     
+
+            <div class="column">
+                <img class="bigpic" src="proj4pics/homography.jpg" alt="homography">
+            </div>
+
+        <p>Because there are 8 unknowns, we need at least 4 points on each picture to solve for H. However, having only 4 points can make our data unstable. I used 6-8 points per picture when mosaicing, vertically stacking each new point on the A matrix of the last equation above (2 rows per point). Because we have more values than unknowns, I then dervied a least squares solution to hopefully get an H less prone to noise.</p>
+
+
+    <h2>Image Rectification</h2>
+
+    <p>After computing H, we have all the information we need to warp images. I first tranformed all 4 corners of the image via H to understand the dimensions of the resulting bounding box. Once I had these dimensions, I could create a polygon encapsulting all of the pixels in the resulting image. From here, I used inverse warping to fill in the new image. </p>
+
+    <p>One type of image warping done was image rectification. Here, I corresponded the 4 corners of the rectangular objects in the picture with self-defined rectangular points. This resulted in "straightened out" images.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/table.jpg" alt="table">
+        </div>
+        <div class="column">
+            <img src="proj4pics/rectified_table.jpg" alt="rectified_table">
+        </div>
+        
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/gum.jpg" alt="gum">
+        </div>
+        <div class="column">
+            <img src="proj4pics/rectified_gum.jpg" alt="rectified_gum">
+        </div>
+        
+    </div>
+
+    <p>These images had weird cropping because I was manually choosing the tranformation points, and it was difficult to estimate where the rectanlge should end up in the image.</p>
+
+  
+
+
+
+    <h2>Blending Images into Mosaic</h2>
+
+    <p>For multiple pics with the same center of projection, I could then blend them into a mosaic.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/img3.jpg" alt="img1">
+        </div>
+        <div class="column">
+            <img src="proj4pics/img1.jpg" alt="img1">
+        </div>
+        
+    </div>
+
+    <p>First, I warped one image onto another, and then individually put both the warped and unwarped images onto a matrix of the final mosaic size.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/haas2.jpg" alt="img1">
+        </div>
+        <div class="column">
+            <img src="proj4pics/haas1.jpg" alt="img1">
+        </div>
+        
+    </div>
+
+    <p>For blending, I used cv2.distanceTransform to create "distance maps" of each pixel in the image to the nearest zero pixel. I then used these two maps to create a mask by only using the values where the distance was greater for the warped image.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/haas_mask.jpg" alt="img1">
+        </div>
+    
+    </div>
+
+    <p>From there, I used Laplacian blending like in Project 2, adding the two iamges together to create a mosaic.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/haas_mosaic.jpg" alt="img1">
+        </div>
+    
+    </div>
+
+    <h3>More Examples</h3>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/kitchen1.jpg" alt="img1">
+        </div>
+        <div class="column">
+            <img src="proj4pics/kitchen2.jpg" alt="img1">
+        </div>
+        
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/kitchen_mosaic.jpg" alt="img1">
+        </div>
+    
+    </div>
+   
+    
+
+    <style>
+        body {
+            background-color: white;
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        p {
+            color: black
+        }
+        h2 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+        h3 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+
+        .header {
+            width: 90%;
+            font-family: Georgia;
+            color: #204d63;
+        }
+        .caption {
+            font-size: 14px;
+        }
+        .row {
+            display: flex;
+            padding-bottom: 20px;
+        }
+        .column {
+            flex: 33%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        .pad {
+            padding-bottom: 20px;
+        }
+        img {
+            height: 300px;
+        }
+    </style>
+</body>
+</html>
