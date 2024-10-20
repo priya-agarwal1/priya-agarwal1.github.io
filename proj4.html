@@ -16,7 +16,7 @@
      
 
             <div class="column">
-                <img class="bigpic" src="proj4pics/homography.jpg" alt="homography">
+                <img class="bigimage" src="proj4pics/homography.jpg" alt="homography">
             </div>
 
         <p>Because there are 8 unknowns, we need at least 4 points on each picture to solve for H. However, having only 4 points can make our data unstable. I used 6-8 points per picture when mosaicing, vertically stacking each new point on the A matrix of the last equation above (2 rows per point). Because we have more values than unknowns, I then dervied a least squares solution to hopefully get an H less prone to noise.</p>
@@ -93,7 +93,7 @@
 
     <div class="row">
         <div class="column">
-            <img src="proj4pics/haas_mosaic.jpg" alt="img1">
+            <img class="bigimage" src="proj4pics/haas_mosaic.jpg" alt="img1">
         </div>
     
     </div>
@@ -112,7 +112,7 @@
 
     <div class="row">
         <div class="column">
-            <img src="proj4pics/kitchen_mosaic.jpg" alt="img1">
+            <img class="bigimage" src="proj4pics/kitchen_mosaic.jpg" alt="img1">
         </div>
     
     </div>
@@ -160,6 +160,9 @@
         }
         img {
             height: 300px;
+        }
+        .bigimage {
+            height: 500px;
         }
     </style>
 </body>
