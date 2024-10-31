@@ -89,7 +89,7 @@
     
     </div>
 
-    <p>From there, I used Laplacian blending like in Project 2, adding the two iamges together to create a mosaic.</p>
+    <p>From there, I used Laplacian blending like in Project 2, adding the two images together to create a mosaic.</p>
 
     <div class="row">
         <div class="column">
@@ -116,7 +116,111 @@
         </div>
     
     </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/wurster_1.jpg" alt="img1">
+        </div>
+        <div class="column">
+            <img src="proj4pics/wurster_2.jpg" alt="img1">
+        </div>
+        
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img class="bigimage" src="proj4pics/wurster_mosaic.jpg" alt="img1">
+        </div>
+    
+    </div>
+
+    <h1>Automatic Alignment</h1>
+
+    <p>To start the process of automatically stitching images together, we needed to identify the Harris corners of each of our images. I used a threshold of 0.05, which I found gave me enough points to work with without being too computationally expensive down the line. </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/glade_harris.png" alt="img1">
+        </div>
+        
+    </div>
+
+    <p>You can see that the sky doesn't have any Harris points here. This is because the sky is a smooth gradient in this pictures with no differentiating features (i.e clouds). It would be extremely difficult to stitch our images based on points in the sky. That being said, if I had lowered my threshold, I would have gotten some points in the sky as well.</p>
    
+    <h2>Adaptive Non-Maximal Suppression</h2>
+
+    <p>I then implemented ANMS, which filtered down the Harris corners into stronger points that were also spread out. For each of my Harris corners, I found the minimum radius where a robustified point (0.9 * point) with a higher corner strength also exists. Below is the result of the 200 point with the highest radii.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/glade_anms.png" alt="img1">
+        </div>
+        <div class="column">
+            <img src="proj4pics/glade2_anms.png" alt="img1">
+        </div>
+        
+    </div>
+
+    <h2>Extracting Feature Descriptors</h2>
+    <p>For each of my ANMS points, I downscaled a 40x40 patch into an 8x8 patch, and normalized it to a mean of 0 and a standard deviation as 1. These will serve as the feature descriptors to then match up points across images.</p>
+
+    <h2>Matching Feature Descriptors</h2>
+    <p>To match feature descriptors, I implemented a nearest neighbors algorithm that found 1_NN and 2_NN for each ANMS point, which is the closest and second-closest cooresponding point on the other image respectively. To choose the strongest of these points, I set a threshold of 0.25 and only kept a pair of corresponding points if 1_NN/2_NN was less than this threshold.</p>
+    
+    <p>This is because if the points are indeed a match, 1_NN is likely to have a very low error and 2_NN will have much higher error, so the threshold allows this point to pass. If the points are not a match, the magnitudes of "wrongness" are likely to be more similar.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/glade_matches.png" alt="img1">
+        </div>
+        
+    </div>
+
+    <h2>RANSAC</h2>
+    <p>Finally, I used 4-point RANSAC with 1000 iterations to filter out outliers. I used a threshold value of 5. The RANSAC algorithm then uses least-squares on the largest inlier set to get the homography matrix, and we can once again blend the images.</p>
+
+
+    <div class="row">
+        <div class="column">
+            <img class="bigimage" src="proj4pics/glade_mosaic.jpg" alt="img1">
+        </div>
+    
+    </div>
+
+    <p>There is a bit of a weird line in the middle of the sky, but I think this is due to the lighting being slightly different in both pictures.</p>
+
+    <h2>More Examples</h2>
+
+    <p>The automatic stitching did better than my manual stitching!</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/kitchen_mosaic.jpg" alt="img1">
+            <div class="caption">Manual</div>
+         
+        </div>
+        <div class="column">
+            <img src="proj4pics/auto_kitchen.jpg" alt="img1">
+            <div class="caption">Automatic</div>
+        </div>
+    </div>
+
+    <p>You can see better results in the automatic stithcing, especially where the tile meets the carpet.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj4pics/haas_mosaic.jpg" alt="img1">
+            <div class="caption">Manual</div>
+         
+        </div>
+        <div class="column">
+            <img src="proj4pics/auto_haas.jpg" alt="img1">
+            <div class="caption">Automatic</div>
+        </div>
+    </div>
+
+    <p>The corner of the building looks less "wavy" in the automatically stitched images. The image on the right is also less blurry in the middle.</p>
+
     
 
     <style>
@@ -145,6 +249,7 @@
         }
         .caption {
             font-size: 14px;
+            color: black
         }
         .row {
             display: flex;
