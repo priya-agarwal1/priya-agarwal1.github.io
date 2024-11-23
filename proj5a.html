@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Project 5</title>
+</head>
+<body>
+    
+    <div class="header">
+        <h1>Part A: The Power of Diffusion Models</h1>
+
+        <h2>Precomputed Text Embeddings</h2>
+
+        <p>num_inference_steps = 20</p>
+        <div class="row">
+            <div class="column">
+                <img src="proj5pics/village20.png" alt="img">
+                <div class="caption">an oil painting of a snowy mountain village</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/man20.png" alt="img">
+                <div class="caption">a man wearing a hat</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/rocket20.png" alt="img">
+                <div class="caption">a rocket ship</div>
+            </div>
+        </div>
+        <p>The pictures are all accurate to the prompts, but you can see there are some strange details, like the man being cross-eyed.</p>
+        <div class="row">
+            <div class="column">
+                <img src="proj5pics/rocket10.png" alt="img">
+                <div class="caption">num_inference_steps = 10</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/rocket20.png" alt="img">
+                <div class="caption">num_inference_steps = 20</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/rocket100.png" alt="img">
+                <div class="caption">num_inference_steps = 100</div>
+            </div>
+        </div>
+
+        <p>I think the middle rocket looks best, but the rightmost one could be considered the most "detailed", with more colors and shading.</p>
+
+        <p>I used 180 as my seed.</p>
+
+        <h2>Forward Process</h2>
+        <div class="row">
+            <div class="column">
+                <img src="proj5pics/campanile.png" alt="img">
+                <div class="caption">Campanile</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/campanile250.png" alt="img">
+                <div class="caption">Noisy Campanile at t=250</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/campanile500.png" alt="img">
+                <div class="caption">Noisy Campanile at t=500</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/campanile750.png" alt="img">
+                <div class="caption">Noisy Campanile at t=750</div>
+            </div>
+        
+        </div>
+
+    <h2>Classical Denoising</h2>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/campanile250.png" alt="img">
+            <div class="caption">Noisy Campanile at t=250</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile500.png" alt="img">
+            <div class="caption">Noisy Campanile at t=500</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile750.png" alt="img">
+            <div class="caption">Noisy Campanile at t=750</div>
+        </div>
+    
+    </div>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/cdenoise250.png" alt="img">
+            <div class="caption">Gaussian Blur Denoising at t=250</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/cdenoise500.png" alt="img">
+            <div class="caption">Gaussian Blur Denoising at t=500</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/cdenoise750.png" alt="img">
+            <div class="caption">Gaussian Blur Denoising at t=750</div>
+        </div>
+    
+    </div>
+
+
+    <h2>One-Step Denoising</h2>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/campanile250.png" alt="img">
+            <div class="caption">Noisy Campanile at t=250</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile500.png" alt="img">
+            <div class="caption">Noisy Campanile at t=500</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile750.png" alt="img">
+            <div class="caption">Noisy Campanile at t=750</div>
+        </div>
+    
+    </div>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/1.3_250.png" alt="img">
+            <div class="caption">One-Step Denoised Campanile at t=250</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.3_500.png" alt="img">
+            <div class="caption">One-Step Denoised Campanile at t=500</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.3_750.png" alt="img">
+            <div class="caption">One-Step Denoised Campanile at t=750</div>
+        </div>
+    
+    </div>
+
+    
+    <h2>Iterative Denoising</h2>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/1.4_90.png" alt="img">
+            <div class="caption">Noisy Campanile at t=90</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.4_240.png" alt="img">
+            <div class="caption">Noisy Campanile at t=240</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.4_390.png" alt="img">
+            <div class="caption">Noisy Campanile at t=390</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.4_540.png" alt="img">
+            <div class="caption">Noisy Campanile at t=540</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.4_690.png" alt="img">
+            <div class="caption">Noisy Campanile at t=690</div>
+        </div>
+    </div>
+    
+
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/campanile.png" alt="img">
+            <div class="caption">Original</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/iteratively_denoised.png" alt="img">
+            <div class="caption">Iteratively Denoised</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.3_750.png" alt="img">
+            <div class="caption">One-Step Denoised</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/cdenoise750.png" alt="img">
+            <div class="caption">Gaussian Blurred</div>
+        </div>
+    
+    </div>
+
+
+
+
+    <h2>Diffusion Model Sampling</h2>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/1.5_1.png" alt="img">
+            <div class="caption">Sample 1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.5_2.png" alt="img">
+            <div class="caption">Sample 2</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.5_3.png" alt="img">
+            <div class="caption">Sample 3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.5_4.png" alt="img">
+            <div class="caption">Sample 4</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.5_5.png" alt="img">
+            <div class="caption">Sample 5</div>
+        </div>
+    </div>
+
+    <h2>Classifier-Free Guidance</h2>
+    <p>These were a lot better than in the previous part.</p>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/1.6_1.png" alt="img">
+            <div class="caption">Sample 1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.6_2.png" alt="img">
+            <div class="caption">Sample 2</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.6_3.png" alt="img">
+            <div class="caption">Sample 3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.6_4.png" alt="img">
+            <div class="caption">Sample 4</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.6_5.png" alt="img">
+            <div class="caption">Sample 5</div>
+        </div>
+    </div>
+
+
+    <h2>Image-to-Image Translation</h2>
+
+    <p>With prompt "a high quality photo"</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/1.7_1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.7_3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.7_5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.7_7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.7_10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/1.7_20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile.png" alt="img">
+            <div class="caption">Campanile</div>
+        </div>
+    </div>
+
+    <p>Trying this with my own images!</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/bins1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/bins3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/bins5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/bins7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/bins10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/bins20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/bins.png" alt="img">
+            <div class="caption">Bins</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/guitar1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitar3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitar5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitar7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitar10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitar20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitar.png" alt="img">
+            <div class="caption">Guitar</div>
+        </div>
+    </div>
+
+
+    
+
+    <p>I then tried this with images from the web and hand drawn images.</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/teddybear1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tb3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tb5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tb7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tb10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tb20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/teddy_bear.png" alt="img">
+            <div class="caption">Teddy Bear</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/sb1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb.png" alt="img">
+            <div class="caption">Spongebob</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/flower1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/flower3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/flower5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/flower7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/flower10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/flower20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/flower.png" alt="img">
+            <div class="caption">Flower</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/duck1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/duck3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/duck5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/duck7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/duck10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/duck20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/duck.png" alt="img">
+            <div class="caption">Duck</div>
+        </div>
+    </div>
+
+    <p>For the hand-drawn images, the i-start=20 images came extremely close to the original image! It even looks a little better because it adds proper shading, which can be seen in the duck.</p>
+
+
+
+
+    <h2>Inpainting</h2>
+    
+    <p>By applying masks to images and only denoising within those masks (keeping the rest of the image as the original), we can create inpainted images. </p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/campanile.png" alt="img">
+            <div class="caption">Original</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile_mask.png" alt="img">
+            <div class="caption">Mask</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile_toreplace.png" alt="img">
+            <div class="caption">Hole to Fill</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/inpainted_campanile.png" alt="img">
+            <div class="caption">Inpainted Image</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/cat.png" alt="img">
+            <div class="caption">Original</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/cat_mask.png" alt="img">
+            <div class="caption">Mask</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/cat_toreplace.png" alt="img">
+            <div class="caption">Hole to Fill</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/inpainted_cat.png" alt="img">
+            <div class="caption">Inpainted Image</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/tree.png" alt="img">
+            <div class="caption">Original</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tree_mask.png" alt="img">
+            <div class="caption">Mask</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/tree_toreplace.png" alt="img">
+            <div class="caption">Hole to Fill</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/inpainted_tree2.png" alt="img">
+            <div class="caption">Inpainted Image</div>
+        </div>
+    </div>
+
+    <h2>Text-Conditional Image to Image</h2>
+    <p>This was essentially the same as the other image-to-imgae translation, but with new prompts instead of "a high quality photo"</p>
+
+    <p>"a rocket ship"</p>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/rocket1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocket3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocket5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocket7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocket10_.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocket20_.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/campanile.png" alt="img">
+            <div class="caption">Campanile</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/rocketsponge1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocketsponge3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocketsponge5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocketsponge7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocketsponge10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/rocketsponge20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb.png" alt="img">
+            <div class="caption">Spongebob</div>
+        </div>
+    </div>
+
+    <p>"a photo of a dog"</p>
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/dogsponge1.png" alt="img">
+            <div class="caption">i_start=1</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/dogsponge3.png" alt="img">
+            <div class="caption">i_start=3</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/dogsponge5.png" alt="img">
+            <div class="caption">i_start=5</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/dogsponge7.png" alt="img">
+            <div class="caption">i_start=7</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/dogsponge10.png" alt="img">
+            <div class="caption">i_start=10</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/dogsponge20.png" alt="img">
+            <div class="caption">i_start=20</div>
+        </div>
+        <div class="column">
+            <img src="proj5pics/sb.png" alt="img">
+            <div class="caption">Spongebob</div>
+        </div>
+    </div>
+    
+    <h2>Visual Anagrams</h2>
+    <p>We can create visual anagrams by iteratively denoising both an image and its flipped version, each with different prompts. We average the two noise estimates at each step.</p>
+
+    <p>Prompts: "an oil painting of people around a campfire", "an oil painting of an old man"</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/manfire.png" alt="img">
+        </div>
+        <div class="column">
+            <img src="proj5pics/manfireflip.png" alt="img">
+        </div>
+       
+    </div>
+
+    <p>Prompts: "an oil painting of a snowy mountain village", "a photo of the amalfi cost"</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/snowyamalfi.png" alt="img">
+        </div>
+        <div class="column">
+            <img src="proj5pics/snowyamalfiflipped.png" alt="img">
+        </div>
+       
+    </div>
+
+    <p>Prompts: "a guitar", "a wine bottle"</p>
+
+    <div class="row">
+        <div class="column">
+            <img src="proj5pics/guitarwine.png" alt="img">
+        </div>
+        <div class="column">
+            <img src="proj5pics/guitarwineflipped.png" alt="img">
+        </div>
+       
+    </div>
+
+
+
+    <h2>Hybrid Images</h2>
+
+    <p>This used a similar technique as the previous part, but with noise estimates from high and low frequencies instead of an image and its flipped version. We can see the low frequency image when the image is far away (or smaller), and the high frequency image when the image is up close, or bigger.</p>
+
+    <p>Prompts: "a lithograph of a skull", "a lithograph of waterfalls"</p>
+
+    <div class="row">
+        <div class="column">
+            <img class="smallimage" src="proj5pics/skullwaterfall.png" alt="img1">
+         
+        </div>
+        <div class="column">
+            <img class="closeimage" src="proj5pics/skullwaterfall.png" alt="img1">
+        </div>
+    </div>
+
+    <p>Prompts: "a photo of a dog", "an oil painting of an old man"</p>
+
+    <div class="row">
+        <div class="column">
+            <img class="smallimage" src="proj5pics/mandog2.png" alt="img1">
+         
+        </div>
+        <div class="column">
+            <img class="closeimage" src="proj5pics/mandog2.png" alt="img1">
+        </div>
+    </div>
+    <p>I thought this one was particularly interesting because it interpreted "oil painting" as a picture of the painting itself, not making the whole picture an oil painting. The legs of the easel enable the dog to have legs!</p>
+
+    <p style="padding-top: 20px;">Prompts: "a lithograph of a skull", "an oil painting of a snowy mountain village"</p>
+
+    <div class="row">
+        <div class="column">
+            <img class="smallimage" src="proj5pics/snowyskull.png" alt="img1">
+         
+        </div>
+        <div class="column">
+            <img class="closeimage" src="proj5pics/snowyskull.png" alt="img1">
+        </div>
+    </div>
+
+    <a href="proj5b.html">Click here to go to part B</a>
+
+    
+    <style>
+        body {
+            background-color: white;
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        p {
+            color: black
+        }
+        h2 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+        h3 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+
+        .header {
+            width: 90%;
+            font-family: Georgia;
+            color: #204d63;
+        }
+        .caption {
+            font-size: 14px;
+            color: black
+        }
+        .row {
+            display: flex;
+            padding-bottom: 20px;
+        }
+        .column {
+            flex: 33%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        .pad {
+            padding-bottom: 20px;
+        }
+        img {
+            height: 150px;
+        }
+        .smallimage {
+            height:30px;
+        }
+        .closeimage {
+            height: 300px;
+        }
+        .bigimage {
+            height: 500px;
+        }
+    </style>
+</body>
+</html>

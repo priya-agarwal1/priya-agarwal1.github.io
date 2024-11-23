@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 180 Project 5</title>
+</head>
+<body>
+    
+    <div class="header">
+
+        <a href="proj5a.html">Click here to go to part A</a>
+        <h1>Part B: Diffusion Models from Scratch</h1>
+
+        <h2>Visualizing Noising Processes</h2>
+
+        <p>We are using MNIST digits as our training/testing data for this denoiser. A noisy image is generated from a clean image by adding noise at different strengths. This is how the noise looks at different strengths.</p>
+        <div class="row">
+            <div class="column">
+                <img class="bigimage" src="proj5pics/noise_levels.png" alt="img">
+            </div>
+        </div>
+
+        <h2>Single-Step Denoising UNet</h2>
+
+        <p>I first built a one-step denoiser, which optimizes over L2 loss. Below is the architecture.</p>
+        <img class="bigimage" src="proj5pics/unetarch.png" alt="img">
+
+        <p>I trained this denoiser to denoise a noisy image with σ=0.5, with a batch size of 256 and hidden dimension D=128. I used an Adam optimizer with a learning rate of 1e-4. The model was trained over 5 epochs.</p>
+
+        <img src="proj5pics/trainingloss.png" alt="img">
+
+        <img src="proj5pics/unconditional_epoch1_results.png" alt="img">
+
+
+        <p>Below is how the denoiser performs on different σ values.</p>
+        <img src="proj5pics/1.2.2.png" alt="img">
+
+    <h2>DDPM</h2>
+    <h3>Time-Conditioned UNet</h3>
+    <p>The time conditioned UNet injects a scalar t into the mdoe architecture.</p>
+
+    <img src="proj5pics/time_conditioned_log_losses.png" alt="img">
+
+    
+        <div style="padding-bottom: 10px;" class="column">
+            <img src="proj5pics/time_condition_epoch5.png" alt="img">
+        </div>
+        <div class="column">
+            <img src="proj5pics/time_condition_epoch20.png" alt="img">
+        </div>
+
+    <h3>Class-Conditioned UNet</h3>
+    <p>The time conditioned UNet injects a scalar t into the mdoe architecture.</p>
+
+    <img src="proj5pics/time_conditioned_log_losses.png" alt="img">
+
+    
+        <div style="padding-bottom: 10px;" class="column">
+            <img src="proj5pics/time_condition_epoch5.png" alt="img">
+        </div>
+        <div class="column">
+            <img src="proj5pics/time_condition_epoch20.png" alt="img">
+        </div>
+
+    
+
+
+
+
+    
+    <style>
+        body {
+            background-color: white;
+            font-family: Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        p {
+            color: black
+        }
+        h2 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+        h3 {
+            font-family: Georgia;
+            color: #204d63;
+        }
+
+        .header {
+            width: 90%;
+            font-family: Georgia;
+            color: #204d63;
+        }
+        .caption {
+            font-size: 14px;
+            color: black
+        }
+        .row {
+            display: flex;
+            padding-bottom: 20px;
+        }
+        .column {
+            flex: 33%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+        .pad {
+            padding-bottom: 20px;
+        }
+        img {
+            height: 350px;
+        }
+        .smallimage {
+            height:30px;
+        }
+        .closeimage {
+            height: 300px;
+        }
+        .bigimage {
+            height: 500px;
+        }
+    </style>
+</body>
+</html>
