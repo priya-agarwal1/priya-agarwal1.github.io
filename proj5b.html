@@ -31,7 +31,16 @@
 
         <img src="proj5pics/trainingloss.png" alt="img">
 
-        <img src="proj5pics/unconditional_epoch1_results.png" alt="img">
+        <div class="row">
+            <div class="column">
+                <img src="proj5pics/1.2.1_1.png" alt="img">
+                <div class="caption">Epoch 1</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/1.2.1_5.png" alt="img">
+                <div class="caption">Epoch 5</div>
+            </div>
+        </div>
 
 
         <p>Below is how the denoiser performs on different σ values.</p>
@@ -39,7 +48,7 @@
 
     <h2>DDPM</h2>
     <h3>Time-Conditioned UNet</h3>
-    <p>The time conditioned UNet injects a scalar t into the mdoe architecture.</p>
+    <p>The time conditioned UNet injects a scalar t into the UNet architecture.</p>
 
     <img src="proj5pics/time_conditioned_log_losses.png" alt="img">
 
@@ -52,17 +61,21 @@
         </div>
 
     <h3>Class-Conditioned UNet</h3>
-    <p>The time conditioned UNet injects a scalar t into the mdoe architecture.</p>
+    <p>The class conditioning also adds a class-conditioning vector c.</p>
 
-    <img src="proj5pics/time_conditioned_log_losses.png" alt="img">
+    <img src="proj5pics/class_condition_loglosses.png" alt="img">
 
-    
-        <div style="padding-bottom: 10px;" class="column">
-            <img src="proj5pics/time_condition_epoch5.png" alt="img">
-        </div>
-        <div class="column">
-            <img src="proj5pics/time_condition_epoch20.png" alt="img">
-        </div>
+    <div class="row">
+        
+            <div style="padding-bottom: 10px;" class="column">
+                <img src="proj5pics/class_conditional_epoch5.png" alt="img">
+                <div class="caption">Epoch 5</div>
+            </div>
+            <div class="column">
+                <img src="proj5pics/class_conditional_epoch20.png" alt="img">
+                <div class="caption">Epoch 20</div>
+            </div>
+    </div>
 
     
 
